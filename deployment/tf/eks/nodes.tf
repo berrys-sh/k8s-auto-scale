@@ -70,7 +70,7 @@ resource "aws_iam_instance_profile" "node_instance_profile" {
 resource "aws_security_group" "node_security_group" {
   name        = "NodeSecurityGroupIngress"
   description = "Security group for all nodes in the cluster"
-  vpc_id      = data.aws_vpc.default_vpc.id
+  vpc_id      = data.aws_vpc.demo_vpc.id
   tags = {
     "Name" = "NodeSecurityGroupIngress"
   }
