@@ -37,3 +37,7 @@ data "aws_subnets" "public" {
 data "aws_ssm_parameter" "node_ami" {
   name = "/aws/service/eks/optimized-ami/1.24/amazon-linux-2/recommended/image_id"
 }
+
+data "aws_eks_cluster" "deme_eks" {
+  name = aws_eks_cluster.demo_eks.name
+}
