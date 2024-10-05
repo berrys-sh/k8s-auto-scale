@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "assume_role_eks" {
 
 resource "aws_eks_cluster" "demo_eks" {
   name     = var.cluster_name
-  role_arn = aws_iam_role.eks_cluster_role.arn  # Updated to use the new role
+  role_arn = aws_iam_role.eks_cluster_role.arn # Updated to use the new role
 
   vpc_config {
     subnet_ids              = aws_subnet.public[*].id
