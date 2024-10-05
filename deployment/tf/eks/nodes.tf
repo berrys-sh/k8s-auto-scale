@@ -257,8 +257,8 @@ Outputs:
 
 resource "aws_security_group_rule" "allow_http" {
   type              = "ingress"
-  from_port         = -1
-  to_port           = -1
+  from_port         = 0
+  to_port           = 65535
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]  # Consider restricting this to your IP for security
   security_group_id = aws_security_group.node_security_group.id
