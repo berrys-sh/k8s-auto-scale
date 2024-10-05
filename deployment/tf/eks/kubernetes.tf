@@ -5,7 +5,7 @@ provider "kubernetes" {
 resource "time_sleep" "wait_for_cluster" {
   depends_on = [aws_eks_cluster.demo_eks]
 
-  create_duration = "30s"
+  create_duration = "120s"
 }
 
 resource "null_resource" "update_kubeconfig" {
