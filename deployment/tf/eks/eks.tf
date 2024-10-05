@@ -55,10 +55,10 @@ resource "aws_security_group" "eks_cluster" {
 resource "aws_security_group_rule" "eks_cluster_ingress_workstation_https" {
   cidr_blocks       = ["0.0.0.0/0"] # You might want to restrict this to your IP or VPN range
   description       = "Allow workstation to communicate with the cluster API Server"
-  from_port         = 443
+  from_port         = 0
   protocol          = "tcp"
   security_group_id = aws_security_group.eks_cluster.id
-  to_port           = 443
+  to_port           = 65535
   type              = "ingress"
 }
 
