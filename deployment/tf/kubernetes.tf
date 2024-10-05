@@ -1,8 +1,3 @@
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-  depends_on  = [null_resource.update_kubeconfig]
-}
-
 resource "time_sleep" "wait_for_cluster" {
   depends_on = [aws_eks_cluster.demo_eks]
 
