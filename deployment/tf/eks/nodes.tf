@@ -70,7 +70,7 @@ resource "aws_iam_instance_profile" "node_instance_profile" {
 resource "aws_security_group" "node_security_group" {
   name        = "NodeSecurityGroupIngress"
   description = "Security group for all nodes in the cluster"
-  vpc_id      = data.aws_vpc.demo_vpc.id
+  vpc_id      = aws_vpc.main.id
   tags = {
     "Name" = "NodeSecurityGroupIngress"
   }
@@ -85,7 +85,7 @@ resource "aws_vpc_security_group_ingress_rule" "node_security_group_ingress" {
   description                  = "Allow node to communicate with each other"
   ip_protocol                  = "-1"
   security_group_id            = aws_security_group.node_security_group.id
-  referenced_security_group_id = aws_security_group.node_security_group.id
+  referenced_security_group_id = aws_eks_cluster.demo_eks.vpc_config[0].cluster_security_group_id
 }
 
 resource "aws_vpc_security_group_ingress_rule" "user_ingress" {
@@ -253,4 +253,16 @@ Outputs:
     Description: The autoscaling group
     Value: !Ref NodeGroup
   EOF
+}
+
+resource "aws_eks_node_group" "demo_eks_nodes" {
+  cluster_name    = aws_eks_cluster.demo_eks.name
+  node_group_name = "${var.cluster_name}-node-group"
+  node_role_arn   = aws_iam_role.node_instance_role.arn
+  subnet_ids      = aws_subnet.public[*].id
+  scaling_config {
+    desired_size = var.node_group_desired_size
+    max_size     = var.node_group_max_size
+    min_size     = var.node_group_min_size
+  }
 }

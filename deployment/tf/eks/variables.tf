@@ -71,3 +71,14 @@ variable "public_subnet_3_cidr" {
   description = "The CIDR block for the third public subnet"
   default     = "10.0.3.0/24"
 }
+
+variable "ecr_repository_name" {
+  description = "Name of the ECR repository"
+  type        = string
+  default     = "demo-eks-repo"
+}
+variable "node_group_desired_size" {
+  description = "Desired number of worker nodes"
+  type        = number
+  default     = 2
+}
