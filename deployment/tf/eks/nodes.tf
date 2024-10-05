@@ -104,7 +104,7 @@ resource "aws_vpc_security_group_egress_rule" "node_egress_all" {
   cidr_ipv4         = "0.0.0.0/0"
   security_group_id = aws_security_group.node_security_group.id
 }
-
+/*
 resource "aws_vpc_security_group_ingress_rule" "node_security_group_from_control_plane_ingress" {
   description                  = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
   security_group_id            = aws_security_group.node_security_group.id
@@ -113,7 +113,7 @@ resource "aws_vpc_security_group_ingress_rule" "node_security_group_from_control
   to_port                      = 65535
   ip_protocol                  = "TCP"
 }
-/*
+
 resource "aws_vpc_security_group_ingress_rule" "control_plane_egress_to_node_security_group_on_443" {
   description                  = "Allow pods running extension API servers on port 443 to receive communication from cluster control plane"
   security_group_id            = aws_security_group.node_security_group.id
