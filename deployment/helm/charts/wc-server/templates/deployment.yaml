@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-my-microservice
+  labels:
+    app: {{ .Release.Name }}-my-microservice
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-my-microservice
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-my-microservice
+    spec:
+      containers:
+        - name: my-microservice
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
