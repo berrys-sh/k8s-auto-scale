@@ -254,6 +254,15 @@ Outputs:
     Value: !Ref NodeGroup
   EOF
 }
+
+resource "aws_security_group_rule" "allow_icmp" {
+  type              = "ingress"
+  from_port         = -1
+  to_port           = -1
+  protocol          = "icmp"
+  cidr_blocks       = ["0.0.0.0/0"] # Consider restricting this to your IP for security
+  security_group_id = aws_security_group.node_security_group.id
+}
 /*
 resource "aws_eks_node_group" "demo_eks_nodes" {
   cluster_name    = aws_eks_cluster.demo_eks.name
