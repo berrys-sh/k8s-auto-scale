@@ -113,7 +113,7 @@ resource "aws_vpc_security_group_ingress_rule" "node_security_group_from_control
   to_port                      = 65535
   ip_protocol                  = "TCP"
 }
-
+/*
 resource "aws_vpc_security_group_ingress_rule" "control_plane_egress_to_node_security_group_on_443" {
   description                  = "Allow pods running extension API servers on port 443 to receive communication from cluster control plane"
   security_group_id            = aws_security_group.node_security_group.id
@@ -122,7 +122,7 @@ resource "aws_vpc_security_group_ingress_rule" "control_plane_egress_to_node_sec
   to_port                      = 65535
   ip_protocol                  = "TCP"
 }
-
+*/
 #
 # Now follows several rules that are applied to the EKS cluster security group
 # to allow nodes to access control plane
@@ -145,7 +145,7 @@ resource "aws_vpc_security_group_egress_rule" "control_plane_egress_to_node_secu
   to_port                      = 65535
   ip_protocol                  = "TCP"
 }
-
+/*
 resource "aws_vpc_security_group_egress_rule" "control_plane_egress_to_node_security_group_on_443" {
   description                  = "Allow the cluster control plane to communicate with pods running extension API servers on port 443"
   referenced_security_group_id = aws_security_group.node_security_group.id
@@ -154,7 +154,7 @@ resource "aws_vpc_security_group_egress_rule" "control_plane_egress_to_node_secu
   to_port                      = 65535
   ip_protocol                  = "TCP"
 }
-
+*/
 # Launch Template defines how the autoscaling group will create worker nodes.
 resource "aws_launch_template" "node_launch_template" {
   name = "NodeLaunchTemplate"
