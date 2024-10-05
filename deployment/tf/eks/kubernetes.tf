@@ -27,5 +27,7 @@ resource "kubernetes_config_map" "aws_auth" {
 EOF
   }
 
-  depends_on = [aws_eks_cluster.demo_eks]
+  depends_on = [aws_eks_cluster.demo_eks,
+    null_resource.update_kubeconfig
+  ]
 }
