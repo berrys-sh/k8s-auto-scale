@@ -232,7 +232,7 @@ Resources:
   NodeGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      VPCZoneIdentifier: ["${data.aws_subnets.public.ids[0]}","${data.aws_subnets.public.ids[1]}", "${data.aws_subnets.public.ids[2]}"]
+      VPCZoneIdentifier: ${jsonencode(aws_subnet.public[*].id)}
       MinSize: "${var.node_group_min_size}"
       MaxSize: "${var.node_group_max_size}"
       DesiredCapacity: "${var.node_group_desired_capacity}"
@@ -265,4 +265,31 @@ resource "aws_eks_node_group" "demo_eks_nodes" {
     max_size     = var.node_group_max_size
     min_size     = var.node_group_min_size
   }
+}
+resource "aws_iam_policy" "eks_node_group_policy" {
+  name        = "EKSNodeGroupPolicy"
+  path        = "/"
+  description = "Policy for creating EKS node groups"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "eks:CreateNodegroup",
+          "eks:DescribeNodegroup",
+          "eks:DeleteNodegroup",
+          "eks:UpdateNodegroupConfig",
+          "eks:UpdateNodegroupVersion"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "user_eks_node_group_policy" {
+  user       = "kk_labs_user_581243"
+  policy_arn = aws_iam_policy.eks_node_group_policy.arn
 }
