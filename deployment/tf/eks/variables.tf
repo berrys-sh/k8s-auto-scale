@@ -82,3 +82,8 @@ variable "node_group_desired_size" {
   type        = number
   default     = 2
 }
+variable "eks_cluster_role_name" {
+  description = "Name of the EKS Cluster IAM Role"
+  type        = string
+  default     = "eksClusterRole"
+}

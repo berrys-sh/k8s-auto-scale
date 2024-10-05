@@ -266,6 +266,8 @@ resource "aws_eks_node_group" "demo_eks_nodes" {
     min_size     = var.node_group_min_size
   }
 }
+
+/*
 resource "aws_iam_policy" "eks_node_group_policy" {
   name        = "EKSNodeGroupPolicy"
   path        = "/"
@@ -293,3 +295,4 @@ resource "aws_iam_user_policy_attachment" "user_eks_node_group_policy" {
   user       = "kk_labs_user_581243"
   policy_arn = aws_iam_policy.eks_node_group_policy.arn
 }
+*/
