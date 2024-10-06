@@ -32,6 +32,9 @@ resource "kubernetes_config_map" "aws_auth" {
     - system:nodes
 EOF
   }
+  provisioner "local-exec" {
+    command = "kubectl config current-context"
+  }
 
   depends_on = [aws_eks_cluster.demo_eks,
     null_resource.update_kubeconfig
