@@ -6,14 +6,19 @@ resource "time_sleep" "wait_for_cluster" {
 
 resource "null_resource" "update_kubeconfig" {
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --region us-east-1 --name ${aws_eks_cluster.demo_eks.name} && sleep 15"
+    command = <<EOT
+    set -x
+      aws eks update-kubeconfig --region us-east-1 --name ${aws_eks_cluster.demo_eks.name}
+      sleep 15
+      kubectl config current-context
+      kubectl config use-context $(kubectl config current-context)
+    EOT
   }
 
-  provisioner "local-exec" {
-    command = "kubectl config use-context $(kubectl config current-context)"
-  }
-
-  depends_on = [aws_eks_cluster.demo_eks, time_sleep.wait_for_cluster]
+  depends_on = [
+    aws_eks_cluster.demo_eks,
+    time_sleep.wait_for_cluster
+  ]
 }
 
 
@@ -32,6 +37,7 @@ resource "kubernetes_config_map" "aws_auth" {
     - system:nodes
 EOF
   }
+
   provisioner "local-exec" {
     command = "kubectl config current-context"
   }
@@ -39,4 +45,5 @@ EOF
   depends_on = [aws_eks_cluster.demo_eks,
     null_resource.update_kubeconfig
   ]
+
 }
