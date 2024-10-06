@@ -9,6 +9,10 @@ resource "null_resource" "update_kubeconfig" {
     command = "aws eks update-kubeconfig --region us-east-1 --name ${aws_eks_cluster.demo_eks.name} && sleep 15"
   }
 
+  provisioner "local-exec" {
+    command = "kubectl config use-context $(kubectl config current-context)"
+  }
+
   depends_on = [aws_eks_cluster.demo_eks, time_sleep.wait_for_cluster]
 }
 
