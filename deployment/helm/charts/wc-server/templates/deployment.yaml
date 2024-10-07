@@ -23,7 +23,6 @@ spec:
             - name: PORT
               value: "80"
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
             requests:
               cpu: "100m"  # Define the CPU request
               memory: "128Mi"  # Optionally define memory request
