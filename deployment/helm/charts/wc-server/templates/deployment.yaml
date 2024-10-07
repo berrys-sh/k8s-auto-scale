@@ -24,3 +24,9 @@ spec:
               value: "80"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+            requests:
+              cpu: "100m"  # Define the CPU request
+              memory: "128Mi"  # Optionally define memory request
+            limits:
+              cpu: "200m"  # Optionally define CPU limit
+              memory: "256Mi"  # Optionally define memory limit
