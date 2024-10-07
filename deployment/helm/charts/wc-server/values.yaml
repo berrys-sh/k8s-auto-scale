@@ -10,3 +10,12 @@ service:
   port: 80
 
 resources: {}
+
+deployment:
+  name: first-my-microservice
+
+keda:
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  cpuTarget: 70 # Scale when average CPU utilization is above 70%
+  memoryTarget: 80 # Scale when average memory utilization is above 80%

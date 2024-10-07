@@ -83,4 +83,28 @@ fi
 
 echo "Script completed successfully. Nodes should now be joined to the cluster."
 
+echo "Installing helm"
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+echo "Installing wc-server"
+cd ../helm/charts/wc-server
+helm install wc-server .
+helm list
+
+
+echo "Installing keda"
+helm repo add kedacore https://kedacore.github.io/charts
+helm repo update
+helm install keda kedacore/keda --namespace keda --create-namespace --set metricsServer.enabled=true
+helm list -n keda
+kubectl get pods -n keda
+
+echo "Installing keda-metrics-server"
+kubectl apply -f https://github.com/kedacore/keda-metrics-apiserver/releases/download/v2.14.0/keda-metrics-apiserver.yaml
+kubectl get pods --all-namespaces
+
+echo "Installing k8s Metrics Server"
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+
 

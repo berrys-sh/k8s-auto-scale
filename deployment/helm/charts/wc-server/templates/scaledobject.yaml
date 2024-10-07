@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Release.Name }}-scaledobject
+  namespace: {{ .Release.Namespace }}
+spec:
+  scaleTargetRef:
+    name: {{ .Values.deployment.name }}
+  minReplicaCount: {{ .Values.keda.minReplicaCount }}
+  maxReplicaCount: {{ .Values.keda.maxReplicaCount }}
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "{{ .Values.keda.cpuTarget }}"
+    - type: memory
+      metadata:
+        type: Utilization
+        value: "{{ .Values.keda.memoryTarget }}"
