@@ -81,19 +81,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Wait for nodes to join the cluster
-echo "Waiting for nodes to join the cluster (2-3 minutes)..."
-sleep 180
-
-# Step 5: Verify that worker nodes have joined the cluster
-echo "Checking node status..."
-kubectl get nodes -o wide
-
-if [ $? -ne 0 ]; then
-  echo "Error: Failed to retrieve node information"
-  exit 1
-fi
-
 echo "Script completed successfully. Nodes should now be joined to the cluster."
 
 
