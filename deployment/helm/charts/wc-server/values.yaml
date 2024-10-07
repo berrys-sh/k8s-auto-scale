@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: my-microservice-image
-  tag: latest
+  repository: 058264184252.dkr.ecr.us-east-1.amazonaws.com/demo-eks-repo
+  tag: wc-server-0.0.2
   pullPolicy: IfNotPresent
 
 service:
