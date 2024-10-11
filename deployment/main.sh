@@ -1,36 +1,11 @@
 #!/bin/bash
 
-
 # Step 1: install terraform
-terraform_version=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')
-curl -O "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip"
-unzip terraform_${terraform_version}_linux_amd64.zip
-mkdir -p ~/bin
-mv terraform ~/bin/
-terraform version
-
-# Step 2: Initialize the Terraform working directory
-echo "Initializing Terraform..."
-terraform init
-
-# Step 3: Apply the Terraform configuration
-echo "Applying Terraform plan..."
-terraform plan
-
-# Step 3: Apply the Terraform configuration
-echo "Applying Terraform configuration..."
-terraform apply -auto-approve
-
-# Step 4: Output terraform
-echo "terraform output:"
-terraform output  
-
-
-#!/bin/bash
+./terraform-deploy.sh true
 
 # Set the region and cluster name (you can parameterize this as needed)
 REGION="us-east-1"
-CLUSTER_NAME="demo-eks"
+#CLUSTER_NAME="demo-eks" # move to env
 
 # Fetch Terraform output for NodeInstanceRole
 NODE_INSTANCE_ROLE=$(terraform output -raw NodeInstanceRole)
@@ -83,28 +58,12 @@ fi
 
 echo "Script completed successfully. Nodes should now be joined to the cluster."
 
-echo "Installing helm"
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-echo "Installing wc-server"
-cd ../helm/charts/wc-server
-helm install wc-server .
-helm list
 
 
-echo "Installing keda"
-helm repo add kedacore https://kedacore.github.io/charts
-helm repo update
-helm install keda kedacore/keda --namespace keda --create-namespace --set metricsServer.enabled=true
-helm list -n keda
-kubectl get pods -n keda
+# Build WC Server Image
+./build-wc-server.sh
 
-echo "Installing keda-metrics-server"
-kubectl apply -f https://github.com/kedacore/keda-metrics-apiserver/releases/download/v2.14.0/keda-metrics-apiserver.yaml
-kubectl get pods --all-namespaces
 
-echo "Installing k8s Metrics Server"
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-
+./helm-deploy.sh helm wc_server_new keda
 
 
