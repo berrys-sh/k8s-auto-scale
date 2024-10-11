@@ -5,11 +5,11 @@
 ECR_REPO_URI=$(aws ecr describe-repositories --repository-names demo-eks-repo --query 'repositories[0].repositoryUri' --output text)
 
 # Build the docker image
-WC_SERVER_IMAGE_VERSION=$(jq -r '.version' ./deployment/ms/wc-server/package.json)
+WC_SERVER_IMAGE_VERSION=$(jq -r '.version' ./ms/wc-server/package.json)
 WC_SERVER_IMAGE_TAG=wc-server:${WC_SERVER_IMAGE_VERSION}
 WC_SERVER_IMAGE_URI=${ECR_REPO_URI}:${WC_SERVER_IMAGE_TAG}
 echo "Building docker image: ${WC_SERVER_IMAGE_URI}"
-docker build -t ${WC_SERVER_IMAGE_URI} ./deployment/ms/wc-server
+docker build -t ${WC_SERVER_IMAGE_URI} ./ms/wc-server
 
 echo "Pushing docker image: ${WC_SERVER_IMAGE_URI}"
 docker push ${WC_SERVER_IMAGE_URI}
