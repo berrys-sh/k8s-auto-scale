@@ -19,19 +19,22 @@ if [ "$IS_INSTALL_TERRAFORM" == "true" ]; then
     rm -f terraform_${terraform_version}_linux_amd64.zip
     terraform version
 fi
+cd ${TERRAFORM_DIR}
 # Step 2: Initialize the Terraform working directory
 echo "Initializing Terraform..."
-terraform init ${TERRAFORM_DIR}
+terraform init 
 
 # Step 3: Apply the Terraform configuration
 echo "Applying Terraform plan..."
-terraform plan ${TERRAFORM_DIR}
+terraform plan 
 
 # Step 3: Apply the Terraform configuration
 echo "Applying Terraform configuration..."
-terraform apply -auto-approve ${TERRAFORM_DIR}
+terraform apply -auto-approve 
 
 # Step 4: Output terraform
 echo "terraform output:"
-terraform output -chdir=${TERRAFORM_DIR}
+terraform output 
+
+cd -
 
