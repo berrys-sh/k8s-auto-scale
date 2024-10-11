@@ -1,8 +1,9 @@
 #!/bin/bash
 
-
 # Get ECR Repo URI
 ECR_REPO_URI=$(aws ecr describe-repositories --repository-names demo-eks-repo --query 'repositories[0].repositoryUri' --output text)
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO_URI
 
 # Build the docker image
 WC_SERVER_IMAGE_VERSION=$(jq -r '.version' ./ms/wc-server/package.json)

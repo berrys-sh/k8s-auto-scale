@@ -1,6 +1,33 @@
 #!/bin/bash
 
-# Step 1: install terraform
+# install podman
+
+# Update the package manager and install dependencies
+echo "Updating package manager and installing dependencies..."
+sudo yum update -y
+sudo yum install -y yum-utils
+
+# Add the Podman repository
+echo "Adding Podman repository..."
+sudo curl -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo \
+    https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo
+
+# Install Podman
+echo "Installing Podman..."
+sudo yum install -y podman
+
+# Verify installation
+if command -v podman &> /dev/null
+then
+    echo "Podman successfully installed."
+    podman --version
+else
+    echo "Podman installation failed."
+    exit 1
+fi
+
+
+# install terraform
 source ./deployment/terraform-deploy.sh true
 
 # Set the region and cluster name (you can parameterize this as needed)
