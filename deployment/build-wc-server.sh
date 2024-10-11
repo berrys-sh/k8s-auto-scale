@@ -7,7 +7,7 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 
 # Build the docker image
 WC_SERVER_IMAGE_VERSION=$(jq -r '.version' ./ms/wc-server/package.json)
-WC_SERVER_IMAGE_TAG=wc-server:${WC_SERVER_IMAGE_VERSION}
+WC_SERVER_IMAGE_TAG=wc-server-${WC_SERVER_IMAGE_VERSION}
 WC_SERVER_IMAGE_URI=${ECR_REPO_URI}:${WC_SERVER_IMAGE_TAG}
 echo "Building docker image: ${WC_SERVER_IMAGE_URI}"
 docker build -t ${WC_SERVER_IMAGE_URI} ./ms/wc-server
