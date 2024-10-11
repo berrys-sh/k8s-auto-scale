@@ -9,7 +9,7 @@ TERRAFORM_DIR="./deployment/tf"
 
 # Convert the input to lowercase (in case the user enters True/False)
 IS_INSTALL_TERRAFORM=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-if [ "$value" == "true" ]; then
+if [ "$IS_INSTALL_TERRAFORM" == "true" ]; then
     echo "Installing Terraform..."
     terraform_version=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')
     curl -O "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip"
