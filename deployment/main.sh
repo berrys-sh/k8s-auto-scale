@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Step 1: install terraform
-./terraform-deploy.sh true
+./deployment/terraform-deploy.sh true
 
 # Set the region and cluster name (you can parameterize this as needed)
 REGION="us-east-1"
@@ -61,9 +61,9 @@ echo "Script completed successfully. Nodes should now be joined to the cluster."
 
 
 # Build WC Server Image
-./build-wc-server.sh
+./deployment/build-wc-server.sh
 
 
-./helm-deploy.sh helm wc_server_new keda
+./deployment/helm-deploy.sh helm wc_server_new keda
 
 

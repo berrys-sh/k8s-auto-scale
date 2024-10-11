@@ -4,7 +4,7 @@
 
 # Set .bashrc
 
-file_path='./bashrc.txt'
+file_path='./scripts/cloudshell/bashrc.txt'
 # Append the file content to .bashrc
 cat "$file_path" >> ~/.bashrc
 echo "Content of $file_path has been added to ~/.bashrc."

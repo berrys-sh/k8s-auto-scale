@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./build-wc-server.sh
-./helm-deploy.sh wc_server_update
+./deployment/build-wc-server.sh
+./deployment/helm-deploy.sh wc_server_update

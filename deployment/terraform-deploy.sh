@@ -5,7 +5,7 @@ if [ -z "$1" ]; then
     echo "Usage: $0 <true|false>"
     exit 1
 fi
-TERRAFORM_DIR="./tf"
+TERRAFORM_DIR="./deployment/tf"
 
 # Convert the input to lowercase (in case the user enters True/False)
 IS_INSTALL_TERRAFORM=$(echo "$1" | tr '[:upper:]' '[:lower:]')

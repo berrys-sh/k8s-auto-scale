@@ -61,7 +61,7 @@ install_wc_server_update() {
 
 # Call the function with all the arguments passed to the script
 check_input "$@"
-HELM_DIR="./helm/charts/wc-server"
+HELM_DIR="./deployment/helm/charts/wc-server"
 ITEMS_TO_INSTALL=("$@")
 for item in "${ITEMS_TO_INSTALL[@]}"; do
     install_function="install_${item}"
