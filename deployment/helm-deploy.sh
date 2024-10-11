@@ -2,6 +2,7 @@
 
 # Allowed installations
 allowed=("helm" "keda" "wc_server_new" "wc_server_update")
+helm_dir="./deployment/helm/charts/wc-server"
 
 # Function to check if an element is in the allowed array
 is_allowed() {
@@ -49,19 +50,18 @@ install_keda() {
 
 install_wc_server_new() {
     echo "Installing ${HELM_RELEASE_NAME}"
-    helm install ${HELM_RELEASE_NAME} ${HELM_DIR}
+    helm install ${HELM_RELEASE_NAME} ${helm_dir}
     helm list
 }
 
 install_wc_server_update() {
     echo "Updating ${HELM_RELEASE_NAME}"
-    helm upgrade ${HELM_RELEASE_NAME} ${HELM_DIR}
+    helm upgrade ${HELM_RELEASE_NAME} ${helm_dir}
     helm list
 }
 
 # Call the function with all the arguments passed to the script
 check_input "$@"
-HELM_DIR="./deployment/helm/charts/wc-server"
 ITEMS_TO_INSTALL=("$@")
 for item in "${ITEMS_TO_INSTALL[@]}"; do
     install_function="install_${item}"

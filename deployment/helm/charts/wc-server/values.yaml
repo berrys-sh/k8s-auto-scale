@@ -12,7 +12,7 @@ service:
 resources: {}
 
 deployment:
-  name: first-my-microservice
+  name: {{ .Release.Name }}-my-microservice
 
 keda:
   minReplicaCount: 1
