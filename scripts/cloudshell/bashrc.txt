@@ -1,3 +1,2 @@
 alias k='kubectl'
-alias d='podman'
-alias docker='podman'
+alias d='docker'

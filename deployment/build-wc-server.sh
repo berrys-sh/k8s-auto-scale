@@ -3,18 +3,18 @@
 # Get ECR Repo URI
 ECR_REPO_URI=$(aws ecr describe-repositories --repository-names demo-eks-repo --query 'repositories[0].repositoryUri' --output text)
 
-aws ecr get-login-password --region us-east-1 | podman login --username AWS --password-stdin $ECR_REPO_URI
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO_URI
 
 # Build the docker image
 WC_SERVER_IMAGE_VERSION=$(jq -r '.version' ./ms/wc-server/package.json)
 WC_SERVER_IMAGE_TAG=wc-server:${WC_SERVER_IMAGE_VERSION}
 WC_SERVER_IMAGE_URI=${ECR_REPO_URI}:${WC_SERVER_IMAGE_TAG}
 echo "Building docker image: ${WC_SERVER_IMAGE_URI}"
-podman build -t ${WC_SERVER_IMAGE_URI} ./ms/wc-server
+docker build -t ${WC_SERVER_IMAGE_URI} ./ms/wc-server
 
 echo "Pushing docker image: ${WC_SERVER_IMAGE_URI}"
-podman push ${WC_SERVER_IMAGE_URI}
-podman rmi ${WC_SERVER_IMAGE_URI}
+docker push ${WC_SERVER_IMAGE_URI}
+docker rmi ${WC_SERVER_IMAGE_URI}
 
 # Update the helm chart values
 sed -i 's|repository:.*|repository: '"${ECR_REPO_URI}"'|' ./deployment/helm/charts/wc-server/values.yaml
