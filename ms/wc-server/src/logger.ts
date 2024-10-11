@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { format, createLogger, transports, LogCallback } from 'winston';
+import { format, createLogger, transports } from 'winston';
 
 const { colorize, combine, label, printf, timestamp } = format;
 
@@ -28,19 +28,19 @@ export class Logger {
     transports: [new transports.Console()],
   });
 
-  public info(message: any, callback?: LogCallback) {
-    this.logger.info(message, callback);
+  public info(message: any) { // Removed callback parameter
+    this.logger.info(message);
   }
 
-  public warn(message: any, callback?: LogCallback) {
-    this.logger.warn(message, callback);
+  public warn(message: any) { // Removed callback parameter
+    this.logger.warn(message);
   }
 
-  public error(message: any, callback?: LogCallback) {
-    this.logger.error(message, callback);
+  public error(message: any) { // Removed callback parameter
+    this.logger.error(message);
   }
 
-  public debug(message: any, callback?: LogCallback) {
-    this.logger.debug(message, callback);
+  public debug(message: any) { // Removed callback parameter
+    this.logger.debug(message);
   }
 }
