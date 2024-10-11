@@ -1,14 +1,12 @@
 #!/bin/bash
 
 # Step 1: install terraform
-./deployment/terraform-deploy.sh true
+source ./deployment/terraform-deploy.sh true
 
 # Set the region and cluster name (you can parameterize this as needed)
 REGION="us-east-1"
 #CLUSTER_NAME="demo-eks" # move to env
 
-# Fetch Terraform output for NodeInstanceRole
-NODE_INSTANCE_ROLE=$(terraform output -raw NodeInstanceRole)
 
 if [ -z "$NODE_INSTANCE_ROLE" ]; then
   echo "Error: NodeInstanceRole not found in Terraform output"

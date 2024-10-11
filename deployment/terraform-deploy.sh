@@ -36,5 +36,8 @@ terraform apply -auto-approve
 echo "terraform output:"
 terraform output 
 
+# Fetch Terraform output for NodeInstanceRole
+export NODE_INSTANCE_ROLE=$(terraform output -raw NodeInstanceRole)
+
 cd -
 
