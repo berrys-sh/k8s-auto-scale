@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   scaleTargetRef:
-    name: {{ .Values.deployment.name }}
+    name: {{ .Release.Name }}-my-microservice
   minReplicaCount: {{ .Values.keda.minReplicaCount }}
   maxReplicaCount: {{ .Values.keda.maxReplicaCount }}
   triggers:
