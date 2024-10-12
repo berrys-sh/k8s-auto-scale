@@ -33,7 +33,7 @@ resource "aws_lb" "app_lb" {
 # Create a target group
 resource "aws_lb_target_group" "app_tg" {
   name     = "app-target-group"
-  port     = 80
+  port     = 30081
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
 
