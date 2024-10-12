@@ -61,8 +61,8 @@ resource "aws_lb_listener" "app_listener" {
 
 # Register EC2 instances with the target group
 resource "aws_lb_target_group_attachment" "app_tg_attachment" {
-  count            = length(aws_instance.your_ec2_instances)
+  count            = length(aws_instance.aws_eks_node_group)
   target_group_arn = aws_lb_target_group.app_tg.arn
-  target_id        = aws_instance.your_ec2_instances[count.index].id
+  target_id        = aws_instance.aws_eks_node_group[count.index].id
   port             = 80
 }
