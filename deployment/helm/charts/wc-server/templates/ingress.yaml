@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: app-load-balancer-2117509118.us-east-1.elb.amazonaws.com
+    - host: app-load-balancer-1771856751.us-east-1.elb.amazonaws.com
       http:
         paths:
           - path: /
