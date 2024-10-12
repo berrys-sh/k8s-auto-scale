@@ -30,6 +30,28 @@ resource "aws_iam_role_policy_attachment" "eks_service_policy" {
   role       = aws_iam_role.eks_cluster_role.name
 }
 
+resource "aws_iam_policy" "s3_access_policy" {
+  name        = "S3AccessPolicy"
+  description = "Policy to allow access to the wc-server-dev bucket"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:ListBucket",
+          "s3:GetObject"
+        ],
+        Resource = [
+          aws_s3_bucket.wc_server_dev.arn,
+          "${aws_s3_bucket.wc_server_dev.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
 output "eks_cluster_role_arn" {
   description = "ARN of the EKS Cluster IAM Role"
   value       = aws_iam_role.eks_cluster_role.arn
