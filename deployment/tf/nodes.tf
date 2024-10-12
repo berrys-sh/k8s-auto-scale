@@ -272,7 +272,7 @@ resource "aws_security_group_rule" "allow_icmp" {
   cidr_blocks       = ["0.0.0.0/0"] # Consider restricting this to your IP for security
   security_group_id = aws_security_group.node_security_group.id
 }
-/*
+
 resource "aws_eks_node_group" "demo_eks_nodes" {
   cluster_name    = aws_eks_cluster.demo_eks.name
   node_group_name = "${var.cluster_name}-node-group"
@@ -284,7 +284,7 @@ resource "aws_eks_node_group" "demo_eks_nodes" {
     min_size     = var.node_group_min_size
   }
 }
-
+/*
 
 resource "aws_iam_policy" "eks_node_group_policy" {
   name        = "EKSNodeGroupPolicy"
