@@ -33,7 +33,7 @@ resource "aws_lb" "app_lb" {
 # Create a target group
 resource "aws_lb_target_group" "app_tg" {
   name     = "app-target-group"
-  port     = 30081
+  port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
 
@@ -62,4 +62,8 @@ resource "aws_lb_listener" "app_listener" {
 resource "aws_autoscaling_attachment" "asg_attachment" {
   autoscaling_group_name = aws_cloudformation_stack.autoscaling_group.outputs["NodeAutoScalingGroup"]
   lb_target_group_arn   = aws_lb_target_group.app_tg.arn
+}
+
+output "LoadBalancerDNSName" {
+  value = aws_lb.app_lb.dns_name
 }

@@ -14,6 +14,9 @@ resources: {}
 deployment:
   name: first-my-microservice
 
+ingress:
+  host: app-load-balancer-2117509118.us-east-1.elb.amazonaws.com
+
 keda:
   minReplicaCount: 1
   maxReplicaCount: 10

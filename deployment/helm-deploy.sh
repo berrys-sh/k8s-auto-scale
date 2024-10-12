@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Allowed installations
-allowed=("helm" "keda" "wc_server_new" "wc_server_update")
+allowed=("helm" "keda" "wc_server_new" "wc_server_update" "ingress")
 helm_dir="./deployment/helm/charts/wc-server"
 
 # Function to check if an element is in the allowed array
@@ -46,6 +46,14 @@ install_keda() {
 
     echo "Installing k8s Metrics Server"
     kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+}
+
+
+install_ingress() {
+    echo "Installing ingress"
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    helm repo update
+    helm install ingress-nginx ingress-nginx/ingress-nginx
 }
 
 install_wc_server_new() {

@@ -38,6 +38,7 @@ terraform output
 
 # Fetch Terraform output for NodeInstanceRole
 export NODE_INSTANCE_ROLE=$(terraform output -raw NodeInstanceRole)
+export LOAD_BALANCER_DNS_NAME=$(terraform output -raw LoadBalancerDNSName)
 
 cd -
 

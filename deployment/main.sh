@@ -62,6 +62,6 @@ echo "Script completed successfully. Nodes should now be joined to the cluster."
 ./deployment/build-wc-server.sh
 
 
-./deployment/helm-deploy.sh helm keda wc_server_new
+./deployment/helm-deploy.sh helm keda ingress wc_server_new
 
 
