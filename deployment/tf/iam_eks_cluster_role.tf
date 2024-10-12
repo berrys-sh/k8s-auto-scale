@@ -30,6 +30,7 @@ resource "aws_iam_role_policy_attachment" "eks_service_policy" {
   role       = aws_iam_role.eks_cluster_role.name
 }
 
+/*
 resource "aws_iam_policy" "s3_access_policy" {
   name        = "S3AccessPolicy"
   description = "Policy to allow access to the wc-server-dev bucket"
@@ -51,7 +52,7 @@ resource "aws_iam_policy" "s3_access_policy" {
     ]
   })
 }
-
+*/
 output "eks_cluster_role_arn" {
   description = "ARN of the EKS Cluster IAM Role"
   value       = aws_iam_role.eks_cluster_role.arn

@@ -53,7 +53,7 @@ install_ingress() {
     echo "Installing ingress"
     helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
     helm repo update
-    helm install ingress-nginx ingress-nginx/ingress-nginx
+    helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.service.type=NodePort --set controller.service.nodePorts.http=32028
 }
 
 install_wc_server_new() {

@@ -1,3 +1,5 @@
+/*
+
 resource "aws_s3_bucket" "wc_server_dev" {
   bucket = "wc-server-dev"
 
@@ -21,3 +23,5 @@ resource "aws_s3_bucket_policy" "wc_server_dev_policy" {
     ]
   })
 }
+
+*/
