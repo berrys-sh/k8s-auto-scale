@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # source ./deployment/set-env.sh && ./setup.sh
+# source ./deployment/set-env.sh && ./deployment/main.sh
 
 # k6 run example.js
 
