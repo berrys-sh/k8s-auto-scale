@@ -2,6 +2,8 @@
 
 # source ./deployment/set-env.sh && ./setup.sh
 
+# k6 run example.js
+
 # Set .bashrc
 
 file_path='./scripts/cloudshell/bashrc.txt'
