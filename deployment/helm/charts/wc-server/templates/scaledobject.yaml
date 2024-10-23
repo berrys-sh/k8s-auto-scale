@@ -12,8 +12,12 @@ spec:
     - type: cpu
       metadata:
         type: Utilization
-        value: "{{ .Values.keda.cpuTarget }}"
+        value: "50"
     - type: memory
       metadata:
         type: Utilization
-        value: "{{ .Values.keda.memoryTarget }}"
+        value: "50"
+    - type: http
+      metadata:
+        concurrentRequests: "50"  # Scale when concurrent requests exceed this value
+        averageResponseTime: "50"  # Scale when average response time exceeds this value in milliseconds
