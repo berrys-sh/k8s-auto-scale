@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1beta1
 kind: ScaledObject
 metadata:
   name: {{ .Release.Name }}-scaledobject
-  namespace: {{ .Release.Namespace }}
+  namespace: default
   labels:
     app.kubernetes.io/managed-by: "Helm"
   annotations:

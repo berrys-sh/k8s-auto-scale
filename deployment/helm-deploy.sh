@@ -42,6 +42,11 @@ install_keda() {
         return 1
     fi
 
+    kubectl apply -f https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledjobs.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_triggerauthentications.yaml
+
+
     echo "Installing KEDA"
     helm repo add kedacore https://kedacore.github.io/charts
     helm repo update
