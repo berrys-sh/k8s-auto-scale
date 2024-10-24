@@ -33,23 +33,44 @@ install_helm() {
 }
 
 install_keda() {
+    echo "create namespace KEDA"
+    kubectl create namespace keda
+    echo "Checking Kubernetes authentication..."
+    if ! kubectl auth can-i create deployments --namespace keda; then
+        echo "Error: Not authenticated with Kubernetes cluster or missing required permissions."
+        echo "Please ensure you're logged in to your cluster and have the necessary permissions."
+        return 1
+    fi
+
     echo "Installing KEDA"
     helm repo add kedacore https://kedacore.github.io/charts
     helm repo update
-    helm install keda kedacore/keda --namespace keda --create-namespace --version 2.12.0
-    helm list -n keda
-    kubectl get pods -n keda
+    helm install keda kedacore/keda --namespace keda --create-namespace --version 2.12.0 --wait
 
-    echo "Installing KEDA Metrics API Server"
-    kubectl apply -f https://github.com/kedacore/keda/releases/download/v2.12.0/keda-2.12.0.yaml
-    kubectl get pods --all-namespaces
+
+    echo "Waiting for KEDA CRDs to be ready..."
+    kubectl wait --for=condition=established --timeout=60s crd/scaledobjects.keda.sh
+    kubectl wait --for=condition=established --timeout=60s crd/triggerauthentications.keda.sh
+    kubectl wait --for=condition=established --timeout=120s crd/scaledjobs.keda.sh
+
 
     echo "Installing Kubernetes Metrics Server"
     kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
+    kubectl create rolebinding keda-http-add-on-operator-binding \
+      --role=keda-http-add-on-operator \
+      --serviceaccount=keda:keda-http-add-on-operator \
+      --namespace=keda
+
     echo "Installing KEDA HTTP Add-on"
+    kubectl create namespace keda-http || true
     kubectl apply -f https://github.com/kedacore/http-add-on/releases/download/v0.8.0/keda-http-add-on-0.8.0.yaml
-    helm install http-add-on kedacore/keda-add-ons-http --namespace keda --version 0.8.0
+
+    echo "Waiting for KEDA HTTP Add-on CRDs to be ready..."
+    kubectl wait --for=condition=established --timeout=60s crd/httpscaledobjects.http.keda.sh
+
+    echo "KEDA installation complete"
+    kubectl get pods -n keda
 }
 
 
@@ -61,12 +82,18 @@ install_ingress() {
 }
 
 install_wc_server_new() {
+    echo "Building dependencies for ${HELM_RELEASE_NAME}"
+    helm dependency build ${helm_dir}
+
     echo "Installing ${HELM_RELEASE_NAME}"
     helm install ${HELM_RELEASE_NAME} ${helm_dir}
     helm list
 }
 
 install_wc_server_update() {
+    echo "Updating dependencies for ${HELM_RELEASE_NAME}"
+    helm dependency update ${helm_dir}
+
     echo "Updating ${HELM_RELEASE_NAME}"
     helm upgrade ${HELM_RELEASE_NAME} ${helm_dir}
     helm list
