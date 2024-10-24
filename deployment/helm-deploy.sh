@@ -64,7 +64,9 @@ install_keda() {
 
     echo "Installing KEDA HTTP Add-on"
     kubectl create namespace keda-http || true
-    kubectl apply -f https://github.com/kedacore/http-add-on/releases/download/v0.8.0/keda-http-add-on-0.8.0.yaml
+#    kubectl apply -f https://github.com/kedacore/http-add-on/releases/download/v0.8.0/keda-http-add-on-0.8.0.yaml
+    helm install keda-http-add-on kedacore/keda-add-ons-http --namespace keda --create-namespace
+
 
     echo "Waiting for KEDA HTTP Add-on CRDs to be ready..."
     kubectl wait --for=condition=established --timeout=60s crd/httpscaledobjects.http.keda.sh
