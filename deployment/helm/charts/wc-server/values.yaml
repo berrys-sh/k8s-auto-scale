@@ -18,6 +18,7 @@ ingress:
   host: app-load-balancer-2117509118.us-east-1.elb.amazonaws.com
 
 keda:
+  enabled: true
   minReplicaCount: 1
   maxReplicaCount: 10
   cpuTarget: 70 # Scale when average CPU utilization is above 70%

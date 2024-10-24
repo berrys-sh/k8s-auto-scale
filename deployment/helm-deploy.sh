@@ -33,23 +33,23 @@ install_helm() {
 }
 
 install_keda() {
-    echo "Installing keda"
+    echo "Installing KEDA"
     helm repo add kedacore https://kedacore.github.io/charts
     helm repo update
-    helm install keda kedacore/keda --namespace keda --create-namespace --set metricsServer.enabled=true
+    helm install keda kedacore/keda --namespace keda --create-namespace --version 2.12.0
     helm list -n keda
     kubectl get pods -n keda
 
-    echo "Installing keda-metrics-server"
-    kubectl apply -f https://github.com/kedacore/keda-metrics-apiserver/releases/download/v2.14.0/keda-metrics-apiserver.yaml
+    echo "Installing KEDA Metrics API Server"
+    kubectl apply -f https://github.com/kedacore/keda/releases/download/v2.12.0/keda-2.12.0.yaml
     kubectl get pods --all-namespaces
 
-    echo "Installing k8s Metrics Server"
+    echo "Installing Kubernetes Metrics Server"
     kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
-    echo "Installing keda-add-ons-http"
-    kubectl apply -f https://github.com/kedacore/keda/releases/download/v2.15.1/keda-2.15.1-crds.yaml
-    helm install http-add-on kedacore/keda-add-ons-http --namespace keda
+    echo "Installing KEDA HTTP Add-on"
+    kubectl apply -f https://github.com/kedacore/http-add-on/releases/download/v0.8.0/keda-http-add-on-0.8.0.yaml
+    helm install http-add-on kedacore/keda-add-ons-http --namespace keda --version 0.8.0
 }
 
 
