@@ -45,7 +45,7 @@ install_keda() {
     echo "Installing KEDA"
     helm repo add kedacore https://kedacore.github.io/charts
     helm repo update
-    helm install keda kedacore/keda --namespace keda --create-namespace --version 2.12.0 --wait
+    helm install keda kedacore/keda --namespace keda --create-namespace --version 2.15.1 --wait
 
 
     echo "Waiting for KEDA CRDs to be ready..."
@@ -57,11 +57,6 @@ install_keda() {
     echo "Installing Kubernetes Metrics Server"
     kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
-    kubectl create rolebinding keda-http-add-on-operator-binding \
-      --role=keda-http-add-on-operator \
-      --serviceaccount=keda:keda-http-add-on-operator \
-      --namespace=keda
-
     echo "Installing KEDA HTTP Add-on"
     kubectl create namespace keda-http || true
 #    kubectl apply -f https://github.com/kedacore/http-add-on/releases/download/v0.8.0/keda-http-add-on-0.8.0.yaml
@@ -71,7 +66,11 @@ install_keda() {
     echo "Waiting for KEDA HTTP Add-on CRDs to be ready..."
     kubectl wait --for=condition=established --timeout=60s crd/httpscaledobjects.http.keda.sh
 
-    echo "KEDA installation complete"
+    # Apply the ServiceAccount, Role, and RoleBinding
+    kubectl apply -f ./deployment/keda-permissions.yaml
+
+    # Apply the ScaledObject
+    # kubectl apply -f ./deployment/helm/charts/wc-server/templates/scaledobject.yaml
     kubectl get pods -n keda
 }
 
